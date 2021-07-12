@@ -1,0 +1,27 @@
+Tổng quản Java Android:
+	- Activity
+		- Layouts (Views)
+		- ListView/RecyleView -> Adapter
+	- Storage
+		- SharedPreference
+		- Sqlite
+	- Intent/Broadcast/Receiver
+	- Truyền dữ liệu giữa Activity/Services
+Thu được:
+	- Xây dựng được ứng dụng Đọc báo, truyện, nghe nhạc, xem phim, thu chi, ghi chú, ...
+=======================================================================
+
+Nội dung kiến thức:
+- Giới thiệu tổng quan về Android Java
+- Cài đặt môi trường code.
+	JDK
+	IDE: Android Studio
+		- SDK
+	Build: Install Mobile Smartphone
+		- Thiet thi that (Android)
+		- Simulator
+			- AVD
+			- Genymotion
+- Xây dựng 1 ứng Java Android căn bản
+	- Login Screen & Register Screen
+	- Build ứng dụng
