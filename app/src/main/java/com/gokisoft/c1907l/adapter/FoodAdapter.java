@@ -1,6 +1,7 @@
 package com.gokisoft.c1907l.adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -39,18 +40,39 @@ public class FoodAdapter extends BaseAdapter{
         return 0;
     }
 
+    static int count = 0;
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        view = activity.getLayoutInflater().inflate(R.layout.food_item, null);
+        FoodHolder holder = null;
 
-        TextView titleView = view.findViewById(R.id.fi_title);
-        TextView desView = view.findViewById(R.id.fi_description);
+        if(view == null) {
+            Log.d(FoodAdapter.class.getName(), "Count >> " + ++count);
+            view = activity.getLayoutInflater().inflate(R.layout.food_item, null);
+
+            TextView titleView = view.findViewById(R.id.fi_title);
+            TextView desView = view.findViewById(R.id.fi_description);
+
+            holder = new FoodHolder(titleView, desView);
+            view.setTag(holder);
+        } else {
+            holder = (FoodHolder) view.getTag();
+        }
 
         Food food = dataList.get(position);
 
-        titleView.setText(food.getTitle());
-        desView.setText(food.getDescription());
+        holder.titleView.setText(food.getTitle());
+        holder.desView.setText(food.getDescription());
 
         return view;
+    }
+
+    class FoodHolder {
+        TextView titleView;
+        TextView desView;
+
+        public FoodHolder(TextView titleView, TextView desView) {
+            this.titleView = titleView;
+            this.desView = desView;
+        }
     }
 }

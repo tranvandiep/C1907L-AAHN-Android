@@ -10,6 +10,11 @@ public class Food {
     public Food() {
     }
 
+    public Food(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
     public Food(String thumbnail, String title, String description) {
         this.thumbnail = thumbnail;
         this.title = title;
