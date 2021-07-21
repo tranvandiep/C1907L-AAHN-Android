@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_fmc_edit_food"
+        android:title="Edit Food"
+        android:showAsAction="never" />
+    <item android:id="@+id/menu_fmc_remove_food"
+        android:title="Remove Food"
+        android:showAsAction="never" />
+</menu>

@@ -5,10 +5,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gokisoft.c1907l.R;
 import com.gokisoft.c1907l.models.Food;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -51,8 +53,9 @@ public class FoodAdapter extends BaseAdapter{
 
             TextView titleView = view.findViewById(R.id.fi_title);
             TextView desView = view.findViewById(R.id.fi_description);
+            ImageView thumbnailImg = view.findViewById(R.id.fi_thumbnail);
 
-            holder = new FoodHolder(titleView, desView);
+            holder = new FoodHolder(titleView, desView, thumbnailImg);
             view.setTag(holder);
         } else {
             holder = (FoodHolder) view.getTag();
@@ -63,16 +66,20 @@ public class FoodAdapter extends BaseAdapter{
         holder.titleView.setText(food.getTitle());
         holder.desView.setText(food.getDescription());
 
+        Picasso.with(activity).load(food.getThumbnail()).into(holder.thumbnailImg);
+
         return view;
     }
 
     class FoodHolder {
         TextView titleView;
         TextView desView;
+        ImageView thumbnailImg;
 
-        public FoodHolder(TextView titleView, TextView desView) {
+        public FoodHolder(TextView titleView, TextView desView, ImageView thumbnailImg) {
             this.titleView = titleView;
             this.desView = desView;
+            this.thumbnailImg = thumbnailImg;
         }
     }
 }
