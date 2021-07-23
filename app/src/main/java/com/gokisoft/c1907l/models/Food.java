@@ -8,9 +8,17 @@ import android.os.Parcelable;
  */
 
 public class Food implements Parcelable{
+    int _id;
     String thumbnail, title, description;
 
     public Food() {
+    }
+
+    public Food(int _id, String thumbnail, String title, String description) {
+        this._id = _id;
+        this.thumbnail = thumbnail;
+        this.title = title;
+        this.description = description;
     }
 
     public Food(String title, String description) {
@@ -76,5 +84,13 @@ public class Food implements Parcelable{
         dest.writeString(thumbnail);
         dest.writeString(title);
         dest.writeString(description);
+    }
+
+    public int get_id() {
+        return _id;
+    }
+
+    public void set_id(int _id) {
+        this._id = _id;
     }
 }

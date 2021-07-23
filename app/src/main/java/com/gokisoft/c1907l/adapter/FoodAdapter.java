@@ -71,6 +71,14 @@ public class FoodAdapter extends BaseAdapter{
         return view;
     }
 
+    public List<Food> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<Food> dataList) {
+        this.dataList = dataList;
+    }
+
     class FoodHolder {
         TextView titleView;
         TextView desView;

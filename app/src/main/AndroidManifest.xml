@@ -16,6 +16,10 @@
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".SubjectActivity" />
         <activity android:name=".FoodActivity">
+        </activity>
+        <activity android:name=".DBFoodActivity">
+        </activity>
+        <activity android:name=".DBFoodActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
