@@ -37,8 +37,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 public class FoodActivity extends AppCompatActivity {
     ListView listView;
@@ -55,7 +58,6 @@ public class FoodActivity extends AppCompatActivity {
         listView = findViewById(R.id.as_listview);
 
 //        readData();
-        loadDataFromInternet();
 
         //Fake data
 //        for(int i=0;i<20;i++) {
@@ -89,6 +91,8 @@ public class FoodActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        loadDataFromInternet();
     }
 
     @Override
@@ -198,9 +202,40 @@ public class FoodActivity extends AppCompatActivity {
     void loadDataFromInternet() {
         OkHttpClient client = new OkHttpClient();
 
+        String url = "https://raw.githubusercontent.com/tranvandiep/C1907L-AAHN-Android/master/data/food.txt";
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                Log.d(FoodActivity.class.getName(), json);
+                if(json != null && !json.isEmpty()) {
+                    //Chuyen json string to List trong Java
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<Food>>() {}.getType();
+
+                    dataList = gson.fromJson(json, listType);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.setDataList(dataList);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     void readData() {
