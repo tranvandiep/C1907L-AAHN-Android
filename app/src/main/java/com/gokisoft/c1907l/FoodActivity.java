@@ -1,9 +1,12 @@
 package com.gokisoft.c1907l;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -13,18 +16,29 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.gokisoft.c1907l.adapter.FoodAdapter;
 import com.gokisoft.c1907l.models.Food;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 public class FoodActivity extends AppCompatActivity {
     ListView listView;
@@ -36,9 +50,12 @@ public class FoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject);
 
+        requestPermission(this);
+
         listView = findViewById(R.id.as_listview);
 
-        readData();
+//        readData();
+        loadDataFromInternet();
 
         //Fake data
 //        for(int i=0;i<20;i++) {
@@ -120,6 +137,8 @@ public class FoodActivity extends AppCompatActivity {
                 showSubjectDialog(-1);
                 break;
             case R.id.menu_fm_exit:
+//                startActivity(new Intent(FoodActivity.this, FoodActivity2.class));
+//                overridePendingTransition(R.anim.slide_out_bottom, R.anim.slide_in_bottom);
                 finish();
                 break;
         }
@@ -176,12 +195,56 @@ public class FoodActivity extends AppCompatActivity {
                 }).show();
     }
 
+    void loadDataFromInternet() {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+    }
+
     void readData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("foods", MODE_PRIVATE);
+//        SharedPreferences sharedPreferences = getSharedPreferences("foods", MODE_PRIVATE);
+//
+//        String json = sharedPreferences.getString("foodList", null);
+        String json = "";
 
-        String json = sharedPreferences.getString("foodList", null);
+        FileInputStream fis = null;
 
-        if(json != null) {
+        try {
+            //C1. Doc du lieu tu Internal Storage
+//            fis = openFileInput("food.txt");
+            //C2. Doc du lieu tu External Storage
+//            File folder = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+            File folder = new File("/sdcard/" + Environment.DIRECTORY_DOWNLOADS);
+            if(!folder.exists()) {
+                folder = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+            }
+
+            File file = new File(folder, "datafoods.txt");
+            fis = new FileInputStream(file);
+
+            int code;
+
+            while((code = fis.read()) != -1) {
+                json += String.valueOf((char) code);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        Log.d(FoodActivity.class.getName(), json);
+        if(json != null && !json.isEmpty()) {
             //Chuyen json string to List trong Java
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Food>>() {}.getType();
@@ -197,6 +260,45 @@ public class FoodActivity extends AppCompatActivity {
 
         Log.d(FoodActivity.class.getName(), json);
 
+        FileOutputStream fos = null;
+        try {
+            //C1. Internal Storage
+//            fos = openFileOutput("food.txt", MODE_PRIVATE);
+            //C2. External Storage
+//            File folder = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+            File folder = new File("/sdcard/" + Environment.DIRECTORY_DOWNLOADS);
+            if(!folder.exists()) {
+                folder = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+            }
+//            if (android.os.Build.VERSION.SDK_INT >= 30) {
+//                folder = Environment.getStorageDirectory();
+//            } else {
+//                folder = Environment.getRootDirectory();
+//            }
+            File file = new File(folder, "datafoods.txt");
+            Log.d(FoodActivity.class.getName(), file.getAbsolutePath());
+
+            fos = new FileOutputStream(file);
+
+            byte[] data = json.getBytes("utf8");
+            fos.write(data);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        /**
         //Khoi tao SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("foods", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -206,5 +308,41 @@ public class FoodActivity extends AppCompatActivity {
 
         //Dong ket noi toi SharedPreferences
         editor.commit();
+         */
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case REQUEST_WRITE_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "The app was allowed to write to your storage!", Toast.LENGTH_LONG).show();
+                    // Reload the activity with permission granted or use the features what required the permission
+                } else {
+                    Toast.makeText(this, "The app was not allowed to write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+
+    public static final int REQUEST_WRITE_STORAGE = 112;
+
+    private void requestPermission(Activity context) {
+        boolean hasPermission = (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(context,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_STORAGE);
+        } else {
+            // You are allowed to write external storage:
+//            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/new_folder";
+//            File storageDir = new File(path);
+//            if (!storageDir.exists() && !storageDir.mkdirs()) {
+//                // This should never happen - log handled exception!
+//            }
+        }
     }
 }

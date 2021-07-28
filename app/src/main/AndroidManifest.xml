@@ -3,6 +3,9 @@
     package="com.gokisoft.c1907l">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,18 +18,19 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".SubjectActivity" />
-        <activity android:name=".FoodActivity"></activity>
+        <activity android:name=".FoodActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".DBFoodActivity"></activity>
         <activity android:name=".DBFoodActivity2">
         </activity>
         <activity android:name=".FoodActivity2" />
         <activity android:name=".FoodDetailActivity" />
         <activity android:name=".NoteActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
