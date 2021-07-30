@@ -11,4 +11,6 @@ public interface Config {
     int CODE_REGISTER_SUCCESS = 100;//public static final
 
     String ACTION_REGISTER_SUCCESS = "ACTION_REGISTER_SUCCESS";
+
+    String ACTION_COUNTER = "ACTION_COUNTER";
 }
