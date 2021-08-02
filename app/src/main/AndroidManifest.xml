@@ -18,24 +18,30 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".SubjectActivity" />
-        <activity android:name=".FoodActivity"></activity>
+        <activity android:name=".FoodActivity" />
         <activity android:name=".DBFoodActivity" />
         <activity android:name=".DBFoodActivity2" />
         <activity android:name=".FoodActivity2" />
         <activity android:name=".FoodDetailActivity" />
         <activity android:name=".NoteActivity" />
         <activity android:name=".TestServiceActivity">
+        </activity>
+
+        <service
+            android:name=".CounterService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ThreadActivity">
+        </activity>
+
+        <activity android:name=".AsyncTaskActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".CounterService"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>
