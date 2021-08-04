@@ -24,18 +24,17 @@
         <activity android:name=".FoodActivity2" />
         <activity android:name=".FoodDetailActivity" />
         <activity android:name=".NoteActivity" />
-        <activity android:name=".TestServiceActivity">
-        </activity>
+        <activity android:name=".TestServiceActivity"></activity>
 
         <service
             android:name=".CounterService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ThreadActivity">
-        </activity>
-
+        <activity android:name=".ThreadActivity"></activity>
         <activity android:name=".AsyncTaskActivity">
+        </activity>
+        <activity android:name=".NewsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
