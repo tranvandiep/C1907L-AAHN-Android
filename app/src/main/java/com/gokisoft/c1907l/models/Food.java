@@ -3,12 +3,16 @@ package com.gokisoft.c1907l.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Diep.Tran on 7/16/21.
  */
 
-public class Food implements Parcelable{
+public class Food implements Parcelable {
+    @SerializedName("id")
     int _id;
+
     String thumbnail, title, description;
 
     public Food() {

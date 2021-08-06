@@ -18,4 +18,6 @@ public interface Config {
 
     String RSS_VIETNAMNET_BASE = "https://vietnamnet.vn/";
     String RSS_VIETNAMNET_BUSINESS = "rss/kinh-doanh.rss";
+
+    String API_FOOD = "http://192.168.2.3/aptech/api/modules/food/";
 }

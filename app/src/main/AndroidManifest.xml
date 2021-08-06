@@ -35,6 +35,8 @@
         <activity android:name=".AsyncTaskActivity">
         </activity>
         <activity android:name=".NewsActivity">
+        </activity>
+        <activity android:name=".APIFoodActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
