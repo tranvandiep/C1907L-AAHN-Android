@@ -24,25 +24,25 @@
         <activity android:name=".FoodActivity2" />
         <activity android:name=".FoodDetailActivity" />
         <activity android:name=".NoteActivity" />
-        <activity android:name=".TestServiceActivity"></activity>
+        <activity android:name=".TestServiceActivity" />
 
         <service
             android:name=".CounterService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ThreadActivity"></activity>
-        <activity android:name=".AsyncTaskActivity">
-        </activity>
-        <activity android:name=".NewsActivity">
-        </activity>
-        <activity android:name=".APIFoodActivity">
+        <activity android:name=".ThreadActivity" />
+        <activity android:name=".AsyncTaskActivity" />
+        <activity android:name=".NewsActivity" />
+        <activity android:name=".APIFoodActivity"></activity>
+        <activity android:name="com.gokisoft.bt2113.MusicActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.gokisoft.bt2113.MusicDetailActivity"></activity>
     </application>
 
 </manifest>
